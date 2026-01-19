@@ -23,7 +23,7 @@ export default function App() {
     const fetchDocContent = async () => {
       try {
         const response = await fetch(
-          `https://docs.googleapis.com/v1/documents/${DOC_ID}?key=${API_KEY}`
+          `https://script.google.com/macros/s/AKfycbxkgHu1REEGNvhlI847a-uPzrVR2Emc5OwGY4L4Yh9SJ7GG92TzyetQYMiA8dF3wVXC/exec`
         );
         
         const data = await response.json();
