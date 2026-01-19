@@ -1,9 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, Loader2, AlertCircle } from 'lucide-react';
 
-const API_KEY = 'AIzaSyCtMQUy36wzcYYf8zUodzH5OtjZqlE-gjc';
-const DOC_ID = '1e_Ks9M0V-PXFwXsffRvfu6P0vglHt_2MDuF152u_7sw';
-
 export default function App() {
   const [messages, setMessages] = useState([
     {
@@ -23,7 +20,7 @@ export default function App() {
     const fetchDocContent = async () => {
       try {
         const response = await fetch(
-          `https://script.google.com/macros/s/AKfycbxkgHu1REEGNvhlI847a-uPzrVR2Emc5OwGY4L4Yh9SJ7GG92TzyetQYMiA8dF3wVXC/exec`
+          'https://script.google.com/macros/s/AKfycbxKgHu1REEGNvhlI847a-uPzrVR2Emc50wGY4L4Yh9SJ7GG92TzyetQYMiA8dF3wVXC/exec'
         );
         
         const data = await response.json();
@@ -33,23 +30,11 @@ export default function App() {
           throw new Error(data.error?.message || 'Failed to fetch document');
         }
         
-        // Extract text from Google Docs structure
-        let text = '';
-        if (data.body && data.body.content) {
-          data.body.content.forEach(element => {
-            if (element.paragraph && element.paragraph.elements) {
-              element.paragraph.elements.forEach(elem => {
-                if (elem.textRun && elem.textRun.content) {
-                  text += elem.textRun.content;
-                }
-              });
-            }
-          });
-        }
-        
-        setDocContent(text);
+        // Apps Script returns {content: "text here"}
+        setDocContent(data.content || '');
         setDocLoading(false);
       } catch (error) {
+        console.error('Fetch error:', error);
         setDocError(error.message);
         setDocLoading(false);
       }
