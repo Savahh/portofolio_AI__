@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, Loader2, AlertCircle } from 'lucide-react';
 
-const NOTION_TOKEN = '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';
+const NOTION_TOKEN = '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';
 const PAGE_ID = '2ed48680577d8069a2d2da77a2677168';
 
 export default function App() {
