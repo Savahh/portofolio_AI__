@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'GET');
   
   const NOTION_TOKEN = 'ntn_194364271133biC3ygakFWeD0fPxcztSZoHVJuhPCSRka7T';
-  const PAGE_ID = '2ed48680577d8069a2d2da77a2677168';
+  const PAGE_ID = 'Portfolio-System-Prompt-2ed48680577d8069a2d2da77a2677168';
 
   try {
     const blocksResponse = await fetch(
