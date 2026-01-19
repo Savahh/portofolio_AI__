@@ -3,12 +3,12 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET');
   
-  const NOTION_TOKEN = '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';
-  const PAGE_ID = 'Portfolio-System-Prompt-2ed48680577d8069a2d2da77a2677168';
+  const NOTION_TOKEN = 'secret_19436427133asVRxeb2f5ZWUXW2KqutOnrdal0LwNt1cVQ';
+  const PAGE_ID = '2ed48680577d8069a2d2da77a2677168';
 
   try {
     const blocksResponse = await fetch(
-      `https://api.notion.com/${PAGE_ID}`,
+      `https://api.notion.com/v1/blocks/${PAGE_ID}/children`,
       {
         headers: {
           'Authorization': `Bearer ${NOTION_TOKEN}`,
