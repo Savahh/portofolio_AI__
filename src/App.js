@@ -1,9 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, Loader2, AlertCircle } from 'lucide-react';
 
-const NOTION_TOKEN = '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';
-const PAGE_ID = '2ed48680577d8069a2d2da77a2677168';
-
 export default function App() {
   const [messages, setMessages] = useState([
     {
@@ -18,71 +15,22 @@ export default function App() {
   const [docError, setDocError] = useState(null);
   const scrollRef = useRef(null);
 
-  // Fetch Notion page content on mount
+  // Fetch Notion page content via our API endpoint
   useEffect(() => {
     const fetchNotionContent = async () => {
       try {
         console.log('Fetching Notion content...');
         
-        // First, get the page blocks
-        const blocksResponse = await fetch(
-          `https://api.notion.com/v1/blocks/${PAGE_ID}/children`,
-          {
-            headers: {
-              'Authorization': `Bearer ${NOTION_TOKEN}`,
-              'Notion-Version': '2022-06-28',
-            }
-          }
-        );
+        const response = await fetch('/api/notion');
+        const data = await response.json();
         
-        if (!blocksResponse.ok) {
-          const error = await blocksResponse.json();
-          console.error('Notion API Error:', error);
-          throw new Error(error.message || 'Failed to fetch from Notion');
+        if (!response.ok) {
+          console.error('API Error:', data);
+          throw new Error(data.error || 'Failed to fetch from Notion');
         }
         
-        const blocksData = await blocksResponse.json();
-        console.log('Blocks data:', blocksData);
-        
-        // Extract text from all blocks
-        let text = '';
-        blocksData.results.forEach(block => {
-          // Handle different block types
-          if (block.type === 'paragraph' && block.paragraph.rich_text) {
-            const paragraphText = block.paragraph.rich_text
-              .map(t => t.plain_text)
-              .join('');
-            text += paragraphText + '\n\n';
-          } else if (block.type === 'heading_1' && block.heading_1.rich_text) {
-            const headingText = block.heading_1.rich_text
-              .map(t => t.plain_text)
-              .join('');
-            text += headingText + '\n\n';
-          } else if (block.type === 'heading_2' && block.heading_2.rich_text) {
-            const headingText = block.heading_2.rich_text
-              .map(t => t.plain_text)
-              .join('');
-            text += headingText + '\n\n';
-          } else if (block.type === 'heading_3' && block.heading_3.rich_text) {
-            const headingText = block.heading_3.rich_text
-              .map(t => t.plain_text)
-              .join('');
-            text += headingText + '\n\n';
-          } else if (block.type === 'bulleted_list_item' && block.bulleted_list_item.rich_text) {
-            const bulletText = block.bulleted_list_item.rich_text
-              .map(t => t.plain_text)
-              .join('');
-            text += '• ' + bulletText + '\n';
-          } else if (block.type === 'numbered_list_item' && block.numbered_list_item.rich_text) {
-            const numberText = block.numbered_list_item.rich_text
-              .map(t => t.plain_text)
-              .join('');
-            text += numberText + '\n';
-          }
-        });
-        
-        console.log('Extracted text:', text);
-        setDocContent(text.trim());
+        console.log('Notion content:', data.content);
+        setDocContent(data.content);
         setDocLoading(false);
       } catch (error) {
         console.error('Fetch error:', error);
