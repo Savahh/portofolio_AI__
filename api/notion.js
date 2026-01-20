@@ -3,7 +3,7 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET');
   
-  const NOTION_TOKEN = 'secret_19436427133asVRxeb2f5ZWUXW2KqutOnrdal0LwNt1cVQ';
+  const NOTION_TOKEN = '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';
   const PAGE_ID = '2ed48680-577d-8069-a2d2-da77a2677168';
 
   try {
